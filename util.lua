@@ -1,5 +1,4 @@
 -- Basic utilities that I use over my programs
--- Author: Black_Spirit
 -- Version 1.1.5
 
 

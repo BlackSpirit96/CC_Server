@@ -168,6 +168,22 @@ function showProfile(authToken, username)
 	end
 end
 
+-- createAccount( str username, str password, str userLevel)
+-- add username account with userPassword as password and level userLevel
+-- return success
+function createAccount(username, password, userLevel)
+	accounts[username] = password
+	authTokens[username] = authToken.Gen()
+	userLevels[username] = userLevel
+	table.file(accounts,"accounts/accounts.table")
+	table.file(authTokens,"accounts/authTokens.table")
+	table.file(userLevels,"accounts/userLevels.table")
+	fs.makeDir("mailFolder/"..username)
+	--file.writeData("accounts/accounts.table", ????, 'a')
+	--file.writeData("accounts/authTokens.table", ????, 'a')
+	return "Success!"
+end
+
 -- addAccount(str authToken, str password, str username, str userPassword, int userLevel)
 -- add username account with userPassword as password
 -- return success / error
@@ -181,16 +197,7 @@ function addAccount(authToken, password, username, userPassword, userLevel)
 	else
 		if authToken.lvl(authToken) >= 25 then
 			if accounts[user] == password then
-				accounts[username] = userPassword
-				authTokens[username] = authToken.Gen()
-				userLevels[username] = userLevel
-				table.file(accounts,"accounts/accounts.table")
-				table.file(authTokens,"accounts/authTokens.table")
-				table.file(userLevels,"accounts/userLevels.table")
-				fs.makeDir("mailFolder/"..username)
-				--file.writeData("accounts/accounts.table", ????, 'a')
-				--file.writeData("accounts/authTokens.table", ????, 'a')
-				return "Success!"
+				createAccount(username, userPassword, userLevel)
 			else
 				return "Invalid password!"
 			end

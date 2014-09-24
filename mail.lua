@@ -106,7 +106,7 @@ function deleteMail(authToken, mailName, adminAction)
 			if mailName ~= "All" then
 				fs.delete("mailFolder/"..username..'/'..mailName)
 				local logFile = fs.open("mailFolder/"..username.."/"..logFile.log, 'a')
-				if not(adminAction) then
+				if not adminAction then
 					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time())
 				else
 					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."Admin Action")
@@ -116,7 +116,7 @@ function deleteMail(authToken, mailName, adminAction)
 				local mailList = fs.list("mailFolder/"..username)
 				local logFile = fs.open("mailFolder/"..username.."/"..logFile.log, 'a')
 				for i=1, table.getn(mailList) do
-					if not(adminAction) then
+					if not adminActio) then
 						logFile.write("DELETED - ID: \""..mailList[i].."\" Time: \""..os.time()
 					else
 						logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."Admin Action")
@@ -134,6 +134,10 @@ function deleteMail(authToken, mailName, adminAction)
 	end
 end
 
+
+-- showUserInbox(str authToken, str username)
+-- shows username inbox
+-- return inbox / error
 function showUserInbox(authToken, username)
 	local username = account.authToken.username(authToken)
 	if username ~= nil then
@@ -147,6 +151,9 @@ function showUserInbox(authToken, username)
 	end
 end
 
+-- readUserMail( str authToken, str username, str mailName)
+-- read username mailName mail
+-- return mail / error
 function readUserMail(authToken, username, mailName)
 	local username = account.authToken.username(authToken)
 	if username ~= nil then
@@ -160,6 +167,9 @@ function readUserMail(authToken, username, mailName)
 	end
 end
 
+-- deleteUserMail( str authToken, str username, str mailName)
+-- deletes username mailName mail
+-- return success / error
 function deleteUserMail(authToken, username, mailName)
 	local username = account.authToken.username(authToken)
 	if username ~= nil then
