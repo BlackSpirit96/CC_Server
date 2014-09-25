@@ -1,6 +1,6 @@
 -- News Server API
 -- Author: Black_Spirit
--- Version 0.1
+-- Version 0.1.2
 
 -- loads the account API for account management 
 os.loadAPI("account")
@@ -14,9 +14,9 @@ function returnFile(path)
 	return data
 end
 
--- file.writeData(str path, str data, str mode)
+-- writeData(str path, str data, str mode)
 -- writes data to file with mode
-function file.writeData(path, data, mode)
+function writeData(path, data, mode)
 	local file = fs.open(path, mode)
 	file.write(data)
 	file.close(file)
@@ -25,7 +25,7 @@ end
 -- readNews(str title)
 -- return the article of title
 function readNews(title)
-	--if account.authToken.lvl(authToken) >= 1 then
+	--if account.authTokenLvl(authToken) >= 1 then
 	--	return returnFile("news/"..title)
 	--else
 	--	return "You must login in order to see the news!"
@@ -48,8 +48,8 @@ end
 -- add the article to the news folder
 -- return success / error
 function addArticle(authToken, title, text)
-	if account.authToken.lvl(authToken) >= 10 then
-		file.writeData("news/"..title, text, 'w')
+	if account.authTokenLvl(authToken) >= 10 then
+		writeData("news/"..title, text, 'w')
 		return "Success!"
 	else
 		return "You are not authorized to do that!"
@@ -60,7 +60,7 @@ end
 -- removes the article from the news folder
 -- return success / error
 function removeArticle(authToken, title)
-	if account.authToken.lvl(authToken) >= 10 then
+	if account.authTokenLvl(authToken) >= 10 then
 		if fs.exists("news/"..title) then
 			fs.delete("news/"..title)
 			return "Success!"
@@ -76,9 +76,9 @@ end
 -- add aditional text to the title article
 -- return success / error
 function updateArticle(authToken, title, text)
-	if account.authToken.lvl(authToken) >= 10 then
+	if account.authTokenLvl(authToken) >= 10 then
 		if fs.exists("news/"..title) then
-			file.writeData("news/"..title, text..'\n', 'a')
+			writeData("news/"..title, text..'\n', 'a')
 			return "Success!"
 		else
 			return "Article does not exists!"

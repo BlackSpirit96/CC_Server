@@ -1,29 +1,29 @@
 -- Basic utilities that I use over my programs
--- Version 1.1.5
+-- Version 1.1.6
 
 
--- table.file( table tbl, str path, str file)
+-- tableFile( table tbl, str path, str file)
 -- converts table to file
 -- return success / error
-function table.file( tbl, path)
+function tableFile( tbl, path)
 	local file = fs.open(tbl,"w")
 	file.write(textutils.serialize(tbl))
 	file.close()
 end
 
--- file.table( str path)
+-- fileTable( str path)
 -- converts file to table
 -- return table
-function file.table(path)
+function fileTable(path)
 	local file = fs.open(path,"r")
 	local data = file.readAll()
 	file.close()
 	return textutils.unserialize(data)
 end
 
--- file.writeData(str path, str data, str mode)
+-- writeData(str path, str data, str mode)
 -- writes data to file with mode
-function file.writeData(path, data, mode)
+function writeData(path, data, mode)
 	local file = fs.open(path, mode)
 	file.write(data)
 	file.close(file)
@@ -38,10 +38,10 @@ function returnFile(path)
 	return data
 end
 
--- searchElement.table(table tbl, str element)
+-- searchElementIntable(table tbl, str element)
 -- search tbl to find element
 -- return key where element is located or nil if not
-function searchElement.table(tbl, element)
+function searchElementIntable(tbl, element)
 	for key, value in pairs(tbl) do
 		if value == element then
 			return key

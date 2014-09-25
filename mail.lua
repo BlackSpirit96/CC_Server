@@ -1,6 +1,6 @@
 -- Mail API
 -- Author: Black_Spirit
--- Version: 0.1.2
+-- Version: 0.1.3
 
 -- loads the account API for account management 
 os.loadAPI("account")
@@ -30,7 +30,7 @@ end
 -- sends a mail to 'to'
 -- return success / error
 function sendMail(to, authToken, topic, body)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		if account.isValidUser(to) then
 			local mailID = makeString(6)
@@ -55,7 +55,7 @@ end
 -- shows inbox history
 -- return history / error
 function showInboxHistory(authToken)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		return returnFile("mailFolder/"..username.."/"..logFile.log)
 	else
@@ -67,7 +67,7 @@ end
 -- shows all the mails
 -- return mailList
 function showInbox(authToken)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		local mailList = fs.list("mailFolder/"..username)
 		local mailListStr = ""
@@ -84,7 +84,7 @@ end
 -- checks if mailName exists and
 -- return the content of mailName / error
 function readMail(authToken, mailName)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		if fs.exists("mailFolder/"..username..'/'..mailName) then
 			return returnFile("mailFolder/"..username..'/'..mailName)
@@ -100,7 +100,7 @@ end
 -- deletes mailName if mailName = "All" then it deletes all
 -- return success / error
 function deleteMail(authToken, mailName, adminAction)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		if fs.exists("mailFolder/"..username..'/'..mailName) then
 			if mailName ~= "All" then
@@ -116,8 +116,8 @@ function deleteMail(authToken, mailName, adminAction)
 				local mailList = fs.list("mailFolder/"..username)
 				local logFile = fs.open("mailFolder/"..username.."/"..logFile.log, 'a')
 				for i=1, table.getn(mailList) do
-					if not adminActio) then
-						logFile.write("DELETED - ID: \""..mailList[i].."\" Time: \""..os.time()
+					if not adminActio then
+						logFile.write("DELETED - ID: \""..mailList[i].."\" Time: \""..os.time())
 					else
 						logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."Admin Action")
 					end
@@ -139,12 +139,12 @@ end
 -- shows username inbox
 -- return inbox / error
 function showUserInbox(authToken, username)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
-		if account.authToken.lvl(authToken) >= 25 then
-			return showInbox(account.username.authToken(username))
+		if account.authTokenLvl(authToken) >= 25 then
+			return showInbox(account.usernameAuthToken(username))
 		else
-			return return "You are not authorized to do that!"
+			return "You are not authorized to do that!"
 		end
 	else
 		return "You are not logged in!"
@@ -155,12 +155,12 @@ end
 -- read username mailName mail
 -- return mail / error
 function readUserMail(authToken, username, mailName)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
-		if account.authToken.lvl(authToken) >= 25 then
-			return readMail(account.username.authToken(username), mailName)
+		if account.authTokenLvl(authToken) >= 25 then
+			return readMail(account.usernameAuthToken(username), mailName)
 		else
-			return return "You are not authorized to do that!"
+			return "You are not authorized to do that!"
 		end
 	else
 		return "You are not logged in!"
@@ -171,12 +171,12 @@ end
 -- deletes username mailName mail
 -- return success / error
 function deleteUserMail(authToken, username, mailName)
-	local username = account.authToken.username(authToken)
+	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
-		if account.authToken.lvl(authToken) >= 25 then
-			return deleteMail(account.username.authToken(username), mailName, true)
+		if account.authTokenLvl(authToken) >= 25 then
+			return deleteMail(account.usernameAuthToken(username), mailName, true)
 		else
-			return return "You are not authorized to do that!"
+			return "You are not authorized to do that!"
 		end
 	else
 		return "You are not logged in!"
