@@ -5,11 +5,11 @@
 
 -- API time !
 
-os.loadAPI("news")
-os.loadAPI("account")
-os.loadAPI("mail")
-os.loadAPI("iNet")
-os.loadAPI("util")
+os.loadAPI("API/news")
+os.loadAPI("API/account")
+os.loadAPI("API/mail")
+os.loadAPI("API/iNet")
+os.loadAPI("API/util")
 
 -- Init stage
 print("DPRK_SERVER 0.1")

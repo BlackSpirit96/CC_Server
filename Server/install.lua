@@ -9,17 +9,17 @@ local news = 'r90LatEH'
 local mail = 'GYNn63bC'
 local util = 'vzn7djBF'
 
-shell.run("delete", "account")
-shell.run("delete", "iNet")
+shell.run("delete", "API/account")
+shell.run("delete", "API/iNet")
 shell.run("delete", "server_system")
-shell.run("delete", "news")
-shell.run("delete", "mail")
-shell.run("delete", "util")
+shell.run("delete", "API/news")
+shell.run("delete", "API/mail")
+shell.run("delete", "API/util")
 
 
-shell.run("pastebin", "get", account, "account")
-shell.run("pastebin", "get", iNet, "iNet")
+shell.run("pastebin", "get", account, "API/account")
+shell.run("pastebin", "get", iNet, "API/iNet")
 shell.run("pastebin", "get", server_system, "server_system")
-shell.run("pastebin", "get", news, "news")
-shell.run("pastebin", "get", mail, "mail")
-shell.run("pastebin", "get", util, "util")
+shell.run("pastebin", "get", news, "API/news")
+shell.run("pastebin", "get", mail, "API/mail")
+shell.run("pastebin", "get", util, "API/util")
