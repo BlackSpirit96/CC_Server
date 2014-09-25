@@ -182,3 +182,19 @@ function deleteUserMail(authToken, username, mailName)
 		return "You are not logged in!"
 	end
 end
+
+-- showUserInboxHistorystr authToken, str username
+-- shows username inbox history
+-- return history / error
+function showUserInboxHistory(authToken, username)
+	local username = account.authTokenUsername(authToken)
+	if username ~= nil then
+		if account.authTokenLvl(authToken) >= 25 then
+			return showInboxHistory(account.usernameAuthToken(username))
+		else
+			return "You are not authorized to do that!"
+		end
+	else
+		return "You are not logged in!"
+	end
+end

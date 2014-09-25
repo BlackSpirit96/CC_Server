@@ -30,36 +30,38 @@ while true do
 	if command[1] == 'login' and table.getn(command) == 3 then
 		data = account.login(command[2], command[3])
 	elseif command[1] == 'changePassword'  and table.getn(command) == 4 then
-		data = changePassword(command[2], command[3], command[4])
+		data = account.changePassword(command[2], command[3], command[4])
 	elseif command[1] == 'updateProfile' and table.getn(command) == 4 then
-		data = updateProfile(command[2], command[3], command[4])
+		data = account.updateProfile(command[2], command[3], command[4])
 	elseif command[1] == 'showProfile' and table.getn(command) == 3 then
-		data = showProfile(command[2], command[3])
+		data = account.showProfile(command[2], command[3])
 	elseif command[1] == 'addAccount' and table.getn(command) == 6 then
-		data = addAccount(command[2], command[3], command[4], command[5], command[6])
+		data = account.addAccount(command[2], command[3], command[4], command[5], command[6])
 	elseif command[1] == 'removeAccount' and table.getn(command) == 4 then
-		data = removeAccount(command[2], command[3], command[4])
+		data = account.removeAccount(command[2], command[3], command[4])
 	elseif command[1] == 'changeProfile' and table.getn(command) == 5 then
-		data = changeProfile(command[2], command[3], command[4], command[5])
+		data = account.changeProfile(command[2], command[3], command[4], command[5])
 	elseif command[1] == 'changeUserPassword' and table.getn(command) == 5 then
-		data = changeUserPassword(command[2], command[3], command[4], command[5])
+		data = account.changeUserPassword(command[2], command[3], command[4], command[5])
 	-- Mail service part
 	elseif command[1] == 'sendMail' and table.getn(command) == 5 then
 		data = mail.sendMail(command[2], command[3], command[4], command[5])
 	elseif command[1] == 'showInboxHistory' and table.getn(command) == 2 then
 		data = mail.showInboxHistory(command[2])
 	elseif command[1] == 'showInbox' and table.getn(command) == 2 then
-		data = showInbox(command[2])
+		data = mail.showInbox(command[2])
 	elseif command[1] == 'readMail' and table.getn(command) == 3 then
-		data = readMail(command[2], command[3])
-	elseif command[1] == 'deleteMail' and table.getn(command) == 4 then
-		data = deleteMail(command[2], command[3], command[4])
+		data = mail.readMail(command[2], command[3])
+	elseif command[1] == 'deleteMail' and table.getn(command) == 3 then
+		data = mail.deleteMail(command[2], command[3], false)
 	elseif command[1] == 'showUserInbox' and table.getn(command) == 3 then
-		data = showUserInbox(command[2], command[3])
+		data = mail.howUserInbox(command[2], command[3])
+	elseif command[1] == 'showUserInboxHistory' and table.getn(command) == 3 then
+		data = mail.showUserInboxHistory(command[2], command[3]))
 	elseif command[1] == 'readUserMail' and table.getn(command) == 4 then
-		data = readUserMail(command[2], command[3], command[4])
+		data = mail.readUserMail(command[2], command[3], command[4])
 	elseif command[1] == 'deleteUserMail' and table.getn(command) == 4 then
-		data = deleteUserMail(command[2], command[3], command[4])
+		data = mail.deleteUserMail(command[2], command[3], command[4])
 	-- News service part
 	elseif command[1] == 'readNews' and table.getn(command) == 2 then
 		data = news.readNews(command[2])
