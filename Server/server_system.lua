@@ -43,6 +43,8 @@ while true do
 		data = account.changeProfile(command[2], command[3], command[4], command[5])
 	elseif command[1] == 'changeUserPassword' and table.getn(command) == 5 then
 		data = account.changeUserPassword(command[2], command[3], command[4], command[5])
+	elseif command[1] == 'authTokenLvl' and table.getn(command) == 2 then
+		data = account.authTokenLvl(command[2])
 	-- Mail service part
 	elseif command[1] == 'sendMail' and table.getn(command) == 5 then
 		data = mail.sendMail(command[2], command[3], command[4], command[5])

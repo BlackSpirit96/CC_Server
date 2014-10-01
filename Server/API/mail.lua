@@ -1,4 +1,4 @@
--- Mail API
+-- Mail Service API
 -- Author: Black_Spirit
 -- Version: 0.1.3
 

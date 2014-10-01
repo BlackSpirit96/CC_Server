@@ -33,3 +33,7 @@ end
 function changeUserPassword(authToken, password, username, newPassword)
 	return 'changeUserPassword '..authToken..' '..password..' '..username..' '..newPassword
 end
+
+function authTokenLvl(authToken)
+	return 'authTokenLvl '..authToken
+end

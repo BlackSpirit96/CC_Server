@@ -1,4 +1,4 @@
--- News Server API
+-- News Service API
 -- Author: Black_Spirit
 -- Version 0.1.2
 

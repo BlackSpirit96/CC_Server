@@ -1,4 +1,4 @@
--- login API / Account and Profile management
+-- Account and Profile Service API
 -- Author: Black_Spirit
 -- Version 0.1.5
 
@@ -113,7 +113,8 @@ function authTokenLvl(authToken)
 	local username = authTokenUsername(authToken)
 	local userLevels = fileTable( "accounts/userLevels.table")
 	if username == nil then
-		return "User does not exist!"
+--		return "User does not exist!"
+		return 0
 	else
 		return userLevels[username]
 	end
