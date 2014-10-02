@@ -1,9 +1,9 @@
 -- Mail Service API
 -- Author: Black_Spirit
--- Version: 0.1.3
+-- Version: 0.1.4
 
 -- loads the account API for account management 
-os.loadAPI("account")
+os.loadAPI("API/account")
 
 -- makeString(int length)
 -- generates a random string

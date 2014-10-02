@@ -31,7 +31,7 @@ end
 
 -- returnFile(str path)
 -- return file content
-function returnFile(path)
+function returnFile(path, 'r')
 	local file = fs.open(path)
 	local data =  file.readAll()
 	file.close()

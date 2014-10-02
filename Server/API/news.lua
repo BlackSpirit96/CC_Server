@@ -1,9 +1,9 @@
 -- News Service API
 -- Author: Black_Spirit
--- Version 0.1.2
+-- Version 0.1.3
 
 -- loads the account API for account management 
-os.loadAPI("account")
+os.loadAPI("API/account")
 
 -- returnFile(str path)
 -- return file content

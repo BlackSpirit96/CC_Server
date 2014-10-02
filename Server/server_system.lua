@@ -59,7 +59,7 @@ while true do
 	elseif command[1] == 'showUserInbox' and table.getn(command) == 3 then
 		data = mail.howUserInbox(command[2], command[3])
 	elseif command[1] == 'showUserInboxHistory' and table.getn(command) == 3 then
-		data = mail.showUserInboxHistory(command[2], command[3]))
+		data = mail.showUserInboxHistory(command[2], command[3])
 	elseif command[1] == 'readUserMail' and table.getn(command) == 4 then
 		data = mail.readUserMail(command[2], command[3], command[4])
 	elseif command[1] == 'deleteUserMail' and table.getn(command) == 4 then
