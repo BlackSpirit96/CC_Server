@@ -71,7 +71,7 @@ end
 -- authTokenInit()
 -- generates the authTokens table
 -- return success
-function authTokenInit()
+function authInit()
 	if fs.exists("accounts/accounts.table")then
 		local accounts = fileTable("accounts/accounts.table")
 		local authTokens = {}
@@ -82,6 +82,12 @@ function authTokenInit()
 	else
 		print("First time run!")
 		print("Prepearing default account!")
+		local accounts = {}
+		local authTokens = {}
+		local userLevels = {}
+		tableFile(accounts,"accounts/accounts.table")
+		tableFile(authTokens,"accounts/authTokens.table")
+		tableFile(userLevels,"accounts/userLevels.table")
 		createAccount("Admin", "DAHACKER", 100)
 	end
 end
@@ -179,9 +185,9 @@ end
 -- add username account with userPassword as password and level userLevel
 -- return success
 function createAccount(username, password, userLevel)
-	local accounts = {}
-	local authTokens = {}
-	local userLevels = {}
+	local accounts = fileTable( "accounts/accounts.table")
+	local authTokens = fileTable( "accounts/authTokens.table")
+	local userLevels = fileTable( "accounts/userLevels.table")
 	accounts[username] = password
 	authTokens[username] = authTokenGen()
 	userLevels[username] = userLevel

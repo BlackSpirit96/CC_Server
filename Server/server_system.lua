@@ -19,7 +19,7 @@ os.loadAPI("API/util")
 print("Initializing objects!")
 local net = iNet.open(15, 20, "right")
 net:setProtocol("DPRK_SERVER")
-account.authTokenInit()
+account.authInit()
 
 print("Server initialization is complete!")
 
@@ -27,7 +27,7 @@ print("Server initialization is complete!")
 print("Server working!")
 while true do
 	local data, distance, sender = net:receive()
-	print(data)
+	print("INBOUND:"..data)
 	local command = util.split(data, ' ')
 	-- Account service part
 	if command[1] == 'login' and table.getn(command) == 3 then
@@ -81,5 +81,6 @@ while true do
 	else
 		data = "Invalid command !"
 	end
+	print("OUTBOUND:"..data)
 	net:reply(data)
 end
