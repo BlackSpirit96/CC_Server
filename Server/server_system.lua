@@ -1,10 +1,13 @@
 -- Server Main System
 -- Services: Mail, News, Profile
 -- Author: Black_Spirit
--- Version: 0.1.7
+-- Version: 0.1.8
 
 -- API time !
 
+print("DPRK_SERVER 0.1")
+print("Initializing the server!")
+print("Loading APIs!")
 os.loadAPI("API/news")
 os.loadAPI("API/account")
 os.loadAPI("API/mail")
@@ -12,9 +15,8 @@ os.loadAPI("API/iNet")
 os.loadAPI("API/util")
 
 -- Init stage
-print("DPRK_SERVER 0.1")
-print("Initializing the server!")
 
+print("Initializing objects!")
 local net = iNet.open(15, 20, "right")
 net:setProtocol("DPRK_SERVER")
 account.authTokenInit()
@@ -25,6 +27,7 @@ print("Server initialization is complete!")
 print("Server working!")
 while true do
 	local data, distance, sender = net:receive()
+	print(data)
 	local command = util.split(data, ' ')
 	-- Account service part
 	if command[1] == 'login' and table.getn(command) == 3 then

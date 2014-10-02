@@ -306,7 +306,7 @@ function showAccountManagment()
 				print(" [6] Change Profile Info")
 				print(" [7] Change User Password")
 			end
-			term.while("> ")
+			term.write("> ")
 			local choice = read()
 			if choice == '1' then
 				changePassword()
@@ -319,11 +319,11 @@ function showAccountManagment()
 				break
 			elseif choice == '4' and userLvl(authToken) >= 25 then
 				addAccount()
-			elseif choice == '5' userLvl(authToken) >= 25 then
+			elseif choice == '5' and userLvl(authToken) >= 25 then
 				removeAccount()
-			elseif choice == '6' userLvl(authToken) >= 25 then
+			elseif choice == '6' and  userLvl(authToken) >= 25 then
 				changeProfile()
-			elseif choice == '7' userLvl(authToken) >= 25 then
+			elseif choice == '7' and  userLvl(authToken) >= 25 then
 				changeUserPassword()
 			else
 				print("Invalid choice!")

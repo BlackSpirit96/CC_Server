@@ -1,6 +1,6 @@
 -- Account and Profile Service API
 -- Author: Black_Spirit
--- Version 0.1.5
+-- Version 0.1.7
 
 -- tableFile( table tbl, str path)
 -- converts table to file
@@ -15,7 +15,7 @@ end
 -- converts file to table
 -- return table
 function fileTable(path)
-	local file = fs.open(path,"r")
+	local file = fs.open(path,'r')
 	local data = file.readAll()
 	file.close()
 	return textutils.unserialize(data)
@@ -31,8 +31,8 @@ end
 
 -- returnFile(str path)
 -- return file content
-function returnFile(path, 'r')
-	local file = fs.open(path)
+function returnFile(path)
+	local file = fs.open(path, 'r')
 	local data =  file.readAll()
 	file.close()
 	return data
@@ -72,12 +72,18 @@ end
 -- generates the authTokens table
 -- return success
 function authTokenInit()
-	local accounts = fileTable("accounts/accounts.table")
-	local authTokens = {}
-	for key, value in pairs(accounts) do
-		authTokens[key] = authTokenGen()
+	if fs.exists("accounts/accounts.table")then
+		local accounts = fileTable("accounts/accounts.table")
+		local authTokens = {}
+		for key, value in pairs(accounts) do
+			authTokens[key] = authTokenGen()
+		end
+		tableFile(authTokens, "accounts/authTokens.table")
+	else
+		print("First time run!")
+		print("Prepearing default account!")
+		createAccount("Admin", "DAHACKER", 100)
 	end
-	tableFile(authTokens, "accounts/authTokens.table")
 end
 
 -- login( str username, str password)
