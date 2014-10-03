@@ -1,6 +1,6 @@
 -- Mail Service API
 -- Author: Black_Spirit
--- Version: 0.1.4
+-- Version: 0.1.5
 
 -- loads the account API for account management 
 os.loadAPI("API/account")
@@ -12,7 +12,11 @@ function makeString(l)
     if l < 1 then return nil end -- Check for l < 1
     local s = "" -- Start string
     for i = 1, l do
-        s = s .. string.char(math.random(33, 126)) -- Generate random number from 32 to 126, turn it into character and add to string
+		local number = math.random(33, 125)
+		while number == 96 do
+			number = math.random(33, 126)
+		end
+        s = s .. string.char(number) -- Generate random number from 32 to 126, turn it into character and add to string
     end
     return s -- Return string
 end
@@ -20,7 +24,7 @@ end
 -- returnFile(str path)
 -- return file content
 function returnFile(path)
-	local file = fs.open(path)
+	local file = fs.open(path, 'r')
 	local data =  file.readAll()
 	file.close()
 	return data
@@ -35,12 +39,12 @@ function sendMail(to, authToken, topic, body)
 		if account.isValidUser(to) then
 			local mailID = makeString(6)
 			local file = fs.open("mailFolder/"..to.."/"..mailID, 'w')
-			local logFile = fs.open("mailFolder/"..to.."/"..logFile.log, 'a')
+			local logFile = fs.open("mailFolder/"..to.."/logFile.log", 'a')
 			file.write("From: ".. username..'\n')
 			file.write("Topic: "..topic..'\n')
 			file.write("Main Body:\n"..body)
 			file.close()
-			logFile.write("ID: \""..mailID.."\" Topic: \""..topic.."\" From: \""..username.."\" Time: \""..os.time())
+			logFile.write("ID: \""..mailID.."\" Topic: \""..topic.."\" From: \""..username.."\" Time: \""..os.time().."\"\n")
 			logFile.close()
 			return "Success!"
 		else
@@ -57,7 +61,11 @@ end
 function showInboxHistory(authToken)
 	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
-		return returnFile("mailFolder/"..username.."/"..logFile.log)
+		if fs.exists("mailFolder/"..username.."/logFile.log") then
+			return returnFile("mailFolder/"..username.."/logFile.log")
+		else
+			return "File does not exist!"
+		end
 	else
 		return "You are not logged in!"
 	end
@@ -105,11 +113,11 @@ function deleteMail(authToken, mailName, adminAction)
 		if fs.exists("mailFolder/"..username..'/'..mailName) then
 			if mailName ~= "All" then
 				fs.delete("mailFolder/"..username..'/'..mailName)
-				local logFile = fs.open("mailFolder/"..username.."/"..logFile.log, 'a')
+				local logFile = fs.open("mailFolder/"..username.."/logFile.log", 'a')
 				if not adminAction then
-					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time())
+					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."\"")
 				else
-					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."Admin Action")
+					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."\"".."Admin Action")
 				end
 				logFile.close()
 			else
@@ -139,9 +147,9 @@ end
 -- shows username inbox
 -- return inbox / error
 function showUserInbox(authToken, username)
-	local username = account.authTokenUsername(authToken)
-	if username ~= nil then
-		if account.authTokenLvl(authToken) >= 25 then
+	local user = account.authTokenUsername(authToken)
+	if user ~= nil then
+		if tonumber(account.authTokenLvl(authToken)) >= 25 then
 			return showInbox(account.usernameAuthToken(username))
 		else
 			return "You are not authorized to do that!"
@@ -155,9 +163,9 @@ end
 -- read username mailName mail
 -- return mail / error
 function readUserMail(authToken, username, mailName)
-	local username = account.authTokenUsername(authToken)
-	if username ~= nil then
-		if account.authTokenLvl(authToken) >= 25 then
+	local user = account.authTokenUsername(authToken)
+	if user ~= nil then
+		if tonumber(account.authTokenLvl(authToken)) >= 25 then
 			return readMail(account.usernameAuthToken(username), mailName)
 		else
 			return "You are not authorized to do that!"
@@ -171,9 +179,9 @@ end
 -- deletes username mailName mail
 -- return success / error
 function deleteUserMail(authToken, username, mailName)
-	local username = account.authTokenUsername(authToken)
-	if username ~= nil then
-		if account.authTokenLvl(authToken) >= 25 then
+	local user = account.authTokenUsername(authToken)
+	if user ~= nil then
+		if tonumber(account.authTokenLvl(authToken)) >= 25 then
 			return deleteMail(account.usernameAuthToken(username), mailName, true)
 		else
 			return "You are not authorized to do that!"
@@ -187,9 +195,9 @@ end
 -- shows username inbox history
 -- return history / error
 function showUserInboxHistory(authToken, username)
-	local username = account.authTokenUsername(authToken)
-	if username ~= nil then
-		if account.authTokenLvl(authToken) >= 25 then
+	local user = account.authTokenUsername(authToken)
+	if user ~= nil then
+		if tonumber(account.authTokenLvl(authToken)) >= 25 then
 			return showInboxHistory(account.usernameAuthToken(username))
 		else
 			return "You are not authorized to do that!"

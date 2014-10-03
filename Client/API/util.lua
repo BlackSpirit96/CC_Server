@@ -56,7 +56,11 @@ function makeString(l)
     if l < 1 then return nil end -- Check for l < 1
     local s = "" -- Start string
     for i = 1, l do
-        s = s .. string.char(math.random(33, 126)) -- Generate random number from 32 to 126, turn it into character and add to string
+		local number = math.random(33, 125)
+		while number == 96 do
+			number = math.random(33, 126)
+		end
+        s = s .. string.char(number) -- Generate random number from 32 to 126, turn it into character and add to string
     end
     return s -- Return string
 end

@@ -27,6 +27,11 @@ function userLvl(authToken)
 	return message
 end
 
+function pauseKeyboard()
+io.write("Press <Enter> to continue...")
+io.read()
+end
+
 -- account service functions
 
 function login()
@@ -94,7 +99,7 @@ function addAccount()
 	local userPassword = read("*")
 	term.write("Enter new accounts LVL:")
 	local userLVL = read()
-	term.write("Enter your password to authorize the action.")
+	term.write("Enter your password to authorize the action:")
 	local password = read("*")
 	net:send(account.addAccount(authToken, password, username, userPassword, userLVL))
 	local message, distance, sender = net:receive()
@@ -289,11 +294,14 @@ function showAccountManagment()
 			local choice = read()
 			if choice == '1' then
 				login()
+				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Good bye "..username.."!")
+				print("Leaving Account Management!")
+				pauseKeyboard()
 				break
 			else
 				print("Invalid choice!")
+				pauseKeyboard()
 			end
 		else
 			print(" [1] Change Password")
@@ -311,23 +319,32 @@ function showAccountManagment()
 			local choice = read()
 			if choice == '1' then
 				changePassword()
+				pauseKeyboard()
 			elseif choice == '2' then
 				updateProfile()
+				pauseKeyboard()
 			elseif choice == '3' then
 				showProfile()
+				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Good bye "..username.."!")
+				print("Leaving Account Management!")
+				pauseKeyboard()
 				break
 			elseif choice == '4' and tonumber(userLvl(authToken)) >= 25 then
 				addAccount()
+				pauseKeyboard()
 			elseif choice == '5' and tonumber(userLvl(authToken)) >= 25 then
 				removeAccount()
+				pauseKeyboard()
 			elseif choice == '6' and  tonumber(userLvl(authToken)) >= 25 then
 				changeProfile()
+				pauseKeyboard()
 			elseif choice == '7' and  tonumber(userLvl(authToken)) >= 25 then
 				changeUserPassword()
+				pauseKeyboard()
 			else
 				print("Invalid choice!")
+				pauseKeyboard()
 			end
 		end
 	end
@@ -344,11 +361,14 @@ function showMailMenu()
 			local choice = read()
 			if choice == '1' then
 				login()
+				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Good bye "..username.."!")
+				print("Leaving Main Service!")
+				pauseKeyboard()
 				break
 			else
 				print("Invalid choice!")
+				pauseKeyboard()
 			end
 		else
 			print(" [1] Send Mail")
@@ -368,27 +388,38 @@ function showMailMenu()
 			local choice = read()
 			if choice == '1' then
 				sendMail()
-			elseif choice == '2 'then
+				pauseKeyboard()
+			elseif choice == '2'then
 				showInboxHistory()
+				pauseKeyboard()
 			elseif choice == '3' then
 				showInbox()
+				pauseKeyboard()
 			elseif choice == '4' then
 				readMail()
+				pauseKeyboard()
 			elseif choice == '5' then
 				deleteMail()
+				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Good bye "..username.."!")
+				print("Leaving Mail Service!")
+				pauseKeyboard()
 				break
 			elseif choice == '6' and tonumber(userLvl(authToken)) >= 25 then
 				showUserInbox()
+				pauseKeyboard()
 			elseif choice == '7' and tonumber(userLvl(authToken)) >= 25 then
 				showUserInboxHistory()
+				pauseKeyboard()
 			elseif choice == '8' and tonumber(userLvl(authToken)) >= 25 then
 				readUserMail()
+				pauseKeyboard()
 			elseif choice == '9' and tonumber(userLvl(authToken)) >= 25 then
-				updateArticle()
+				deleteUserMail()
+				pauseKeyboard()
 			else
 				print("Invalid choice!")
+				pauseKeyboard()
 			end
 		end
 	end
@@ -399,31 +430,37 @@ function showNewsMenu()
 		print("Current user:"..username)
 		print("Available options:")
 		if tonumber(userLvl(authToken)) >= 10 then
-			print(" [1] Login")
-			print(" [2] Show News")
-			print(" [3] Read News")
-			print(" [4] Add Article")
-			print(" [5] Remove Article")
-			print(" [6] Update Article")
+			print(" [1] Show News")
+			print(" [2] Read News")
 			print(" [Q] Exit")
+			print("Author Options!")
+			print(" [3] Add Article")
+			print(" [4] Remove Article")
+			print(" [5] Update Article")
 			term.write("> ")
+			local choice = read()
 			if choice == '1' then
-				login()
-			elseif choice == '2' then
 				showNews()
-			elseif choice == '3' then
+				pauseKeyboard()
+			elseif choice == '2' then
 				readNews()
-			elseif choice == '4' then
+				pauseKeyboard()
+			elseif choice == '3' then
 				addArticle()
-			elseif choice == '5' then
+				pauseKeyboard()
+			elseif choice == '4' then
 				removeArticle()
-			elseif choice == '6' then
+				pauseKeyboard()
+			elseif choice == '5' then
 				updateArticle()
+				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Good bye "..username.."!")
+				print("Leaving News Service!")
+				pauseKeyboard()
 				break
 			else
 				print("Invalid choice!")
+				pauseKeyboard()
 			end
 		else
 			print(" [1] Login")
@@ -434,15 +471,20 @@ function showNewsMenu()
 			local choice = read()
 			if choice == '1' then
 				login()
+				pauseKeyboard()
 			elseif choice == '2' then
 				showNews()
+				pauseKeyboard()
 			elseif choice == '3' then
 				readNews()
+				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Good bye "..username.."!")
+				print("Leaving News Service!")
+				pauseKeyboard()
 				break
 			else
 				print("Invalid choice!")
+				pauseKeyboard()
 			end
 		end
 	end

@@ -28,7 +28,7 @@ print("Server working!")
 while true do
 	local data, distance, sender = net:receive()
 	print("INBOUND:"..data)
-	local command = util.split(data, ' ')
+	local command = util.split(data, '~')
 	-- Account service part
 	if command[1] == 'login' and table.getn(command) == 3 then
 		data = account.login(command[2], command[3])
@@ -60,7 +60,7 @@ while true do
 	elseif command[1] == 'deleteMail' and table.getn(command) == 3 then
 		data = mail.deleteMail(command[2], command[3], false)
 	elseif command[1] == 'showUserInbox' and table.getn(command) == 3 then
-		data = mail.howUserInbox(command[2], command[3])
+		data = mail.showUserInbox(command[2], command[3])
 	elseif command[1] == 'showUserInboxHistory' and table.getn(command) == 3 then
 		data = mail.showUserInboxHistory(command[2], command[3])
 	elseif command[1] == 'readUserMail' and table.getn(command) == 4 then

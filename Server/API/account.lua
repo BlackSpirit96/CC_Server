@@ -56,7 +56,11 @@ function makeString(l)
     if l < 1 then return nil end -- Check for l < 1
     local s = "" -- Start string
     for i = 1, l do
-        s = s .. string.char(math.random(33, 126)) -- Generate random number from 32 to 126, turn it into character and add to string
+		local number = math.random(33, 125)
+		while number == 96 do
+			number = math.random(33, 126)
+		end
+        s = s .. string.char(number) -- Generate random number from 32 to 126, turn it into character and add to string
     end
     return s -- Return string
 end
@@ -143,6 +147,7 @@ function changePassword(authToken, oldPassword, newPassword)
 	else
 		if accounts[username] == oldPassword then
 			accounts[username] = newPassword
+			tableFile(accounts,"accounts/accounts.table")
 			return "Success!"
 		else
 			return "oldPassword does not match"
@@ -177,7 +182,11 @@ function showProfile(authToken, username)
 	if user == nil then
 		return "You are not logged in!"
 	else
-		return returnFile("accounts/profiles/"..username)
+		if fs.exists("accounts/profiles/"..username) then
+			return returnFile("accounts/profiles/"..username)
+		else
+			return "Profile data does not exist!"
+		end
 	end
 end
 
@@ -211,9 +220,9 @@ function addAccount(authToken, password, username, userPassword, userLevel)
 	if user == nil then
 		return "You are not logged in!"
 	else
-		if authTokenLvl(authToken) >= 25 then
+		if tonumber(authTokenLvl(authToken)) >= 25 then
 			if accounts[user] == password then
-				createAccount(username, userPassword, userLevel)
+				return createAccount(username, userPassword, userLevel)
 			else
 				return "Invalid password!"
 			end
@@ -233,13 +242,14 @@ function removeAccount(authToken, password, username)
 	if user == nil then
 		return "You are not logged in!"
 	else
-		if authTokenLvl(authToken) >= 50 then
+		if tonumber(authTokenLvl(authToken)) >= 50 then
 			if accounts[user] == password then
 				if isValidUser(username) then
 					accounts[username] = nil
 					authTokens[username] = nil
 					tableFile(accounts,"accounts/accounts.table")
 					tableFile(authTokens,"accounts/authTokens.table")
+					return "Success!"
 				else
 					return "This username does not exist!"
 				end
@@ -262,10 +272,11 @@ function changeProfile(authToken, password, username, data)
 	if user == nil then
 		return "You are not logged in!"
 	else
-		if authTokenLvl(authToken) >= 25 then
+		if tonumber(authTokenLvl(authToken)) >= 25 then
 			if accounts[user] == password then
 				if isValidUser(username) then
 					updateProfile(authTokens[username], accounts[username], data)
+					return "Success!"
 				else
 					return "This username does not exist!"
 				end
@@ -288,10 +299,11 @@ function changeUserPassword(authToken, password, username, newPassword)
 	if user == nil then
 		return "You are not logged in!"
 	else
-		if authTokenLvl(authToken) >= 25 then
+		if tonumber(authTokenLvl(authToken)) >= 25 then
 			if accounts[user] == password then
 				if isValidUser(username) then
 					changePassword(authTokens[username], accounts[username], newPassword)
+					return "Success!"
 				else
 					return "This username does not exist!"
 				end
