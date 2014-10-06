@@ -4,6 +4,10 @@
 
 -- dependencies 
 os.loadAPI("API/util")
+os.loadAPI("API/log")
+
+-- log object
+logger = log.new("LOG/account.log")
 
 -- authTokenGen()
 -- generates an authToken
@@ -16,6 +20,7 @@ end
 -- generates the authTokens table
 -- return success
 function authInit()
+	logger:logFile(2, "Init stage!")
 	if fs.exists("accounts/accounts.table")then
 		local accounts = util.fileTable("accounts/accounts.table")
 		local authTokens = {}
@@ -162,6 +167,7 @@ function addAccount(authToken, password, username, userPassword, userLevel)
 	else
 		if tonumber(authTokenLvl(authToken)) >= 25 then
 			if accounts[user] == password then
+				logger:logFile(2, user.." Added a new account with username:"..username)
 				return createAccount(username, userPassword, userLevel)
 			else
 				return "Invalid password!"
@@ -189,6 +195,7 @@ function removeAccount(authToken, password, username)
 					authTokens[username] = nil
 					util.tableFile(accounts,"accounts/accounts.table")
 					util.tableFile(authTokens,"accounts/authTokens.table")
+					logger:logFile(2, user.." Removed an existing account with username:"..username)
 					return "Success!"
 				else
 					return "This username does not exist!"
@@ -216,6 +223,7 @@ function changeProfile(authToken, password, username, data)
 			if accounts[user] == password then
 				if isValidUser(username) then
 					updateProfile(authTokens[username], accounts[username], data)
+					logger:logFile(2, user.." Changed account data of username:"..username)
 					return "Success!"
 				else
 					return "This username does not exist!"
@@ -243,6 +251,7 @@ function changeUserPassword(authToken, password, username, newPassword)
 			if accounts[user] == password then
 				if isValidUser(username) then
 					changePassword(authTokens[username], accounts[username], newPassword)
+					logger:logFile(2, user.." Changed password of username:"..username)
 					return "Success!"
 				else
 					return "This username does not exist!"

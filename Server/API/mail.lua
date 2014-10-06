@@ -5,6 +5,10 @@
 -- dependencies 
 os.loadAPI("API/account")
 os.loadAPI("API/util")
+os.loadAPI("API/log")
+
+-- log object
+logger = log.new("LOG/mail.log")
 
 -- sendMail( str to, str authToken, str topic, str body)
 -- sends a mail to 'to'
@@ -126,6 +130,7 @@ function showUserInbox(authToken, username)
 	local user = account.authTokenUsername(authToken)
 	if user ~= nil then
 		if tonumber(account.authTokenLvl(authToken)) >= 25 then
+			logger:logFile(2, user.." Read "..username.." inbox")
 			return showInbox(account.usernameAuthToken(username))
 		else
 			return "You are not authorized to do that!"
@@ -142,6 +147,7 @@ function readUserMail(authToken, username, mailName)
 	local user = account.authTokenUsername(authToken)
 	if user ~= nil then
 		if tonumber(account.authTokenLvl(authToken)) >= 25 then
+			logger:logFile(2, user.." Read "..username.." mail with ID:"..mailName)
 			return readMail(account.usernameAuthToken(username), mailName)
 		else
 			return "You are not authorized to do that!"
@@ -158,6 +164,7 @@ function deleteUserMail(authToken, username, mailName)
 	local user = account.authTokenUsername(authToken)
 	if user ~= nil then
 		if tonumber(account.authTokenLvl(authToken)) >= 25 then
+			logger:logFile(2, user.." Deleted "..username.." mail with ID:"..mailName)
 			return deleteMail(account.usernameAuthToken(username), mailName, true)
 		else
 			return "You are not authorized to do that!"
@@ -167,13 +174,14 @@ function deleteUserMail(authToken, username, mailName)
 	end
 end
 
--- showUserInboxHistorystr authToken, str username
+-- showUserInboxHistory(str authToken, str username)
 -- shows username inbox history
 -- return history / error
 function showUserInboxHistory(authToken, username)
 	local user = account.authTokenUsername(authToken)
 	if user ~= nil then
 		if tonumber(account.authTokenLvl(authToken)) >= 25 then
+			logger:logFile(2, user.." Read "..username.." history")
 			return showInboxHistory(account.usernameAuthToken(username))
 		else
 			return "You are not authorized to do that!"

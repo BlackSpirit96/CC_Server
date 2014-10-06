@@ -5,6 +5,10 @@
 -- dependencies 
 os.loadAPI("API/util")
 os.loadAPI("API/account")
+os.loadAPI("API/log")
+
+-- log object
+logger = log.new("LOG/news.log")
 
 -- readNews(str title)
 -- return the article of title
@@ -41,10 +45,12 @@ end
 -- return success / error
 function addArticle(authToken, title, text)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
+		local username = account.authTokenUsername(authToken)
 		local logFile = fs.open("news/"..List)
 		util.writeData("news/"..title, text, 'w')
-		logFile.write(title.." Day:"..os.day().." Time:"..os.time().." Author:"..account.authTokenUsername(authToken))
+		logFile.write(title.." Day:"..os.day().." Time:"..os.time().." Author:"..username)
 		logFile.close()
+		logger:logFile(2, username.." Added article with title:"..title)
 		return "Success!"
 	else
 		return "You are not authorized to do that!"
@@ -58,6 +64,7 @@ function removeArticle(authToken, title)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
 		if fs.exists("news/"..title) then
 			fs.delete("news/"..title)
+			logger:logFile(2, username.." Removed article with title:"..title)
 			return "Success!"
 		else
 			return "Article does not exists!"
@@ -74,6 +81,7 @@ function updateArticle(authToken, title, text)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
 		if fs.exists("news/"..title) then
 			util.writeData("news/"..title, '\n'..text..'\n', 'a')
+			logger:logFile(2, username.." Updated article with title:"..title)
 			return "Success!"
 		else
 			return "Article does not exists!"
