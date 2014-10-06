@@ -41,7 +41,10 @@ end
 -- return success / error
 function addArticle(authToken, title, text)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
+		local logFile = fs.open("news/"..List)
 		util.writeData("news/"..title, text, 'w')
+		logFile.write(title.." Day:"..os.day().." Time:"..os.time().." Author:"..account.authTokenUsername(authToken))
+		logFile.close()
 		return "Success!"
 	else
 		return "You are not authorized to do that!"

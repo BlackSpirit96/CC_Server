@@ -17,6 +17,7 @@
                 <File name="Server\API\news.lua" />
                 <File name="API\iNet.lua" />
                 <File name="API\util.lua" />
+                <File name="API\log.lua" />
             </Folder>
             <File name="Server\install.lua" />
             <File name="Server\server_system.lua" />

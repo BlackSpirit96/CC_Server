@@ -3,16 +3,18 @@
 -- Author: Black_Spirit
 -- Version: 0.1.8
 
--- API time !
-
 print("DPRK_SERVER 0.1")
 print("Initializing the server!")
+
+-- API time !
+
 print("Loading APIs!")
 os.loadAPI("API/news")
 os.loadAPI("API/account")
 os.loadAPI("API/mail")
 os.loadAPI("API/iNet")
 os.loadAPI("API/util")
+os.loadAPI("API/log")
 
 -- Init stage
 
@@ -20,14 +22,15 @@ print("Initializing objects!")
 local net = iNet.open(15, 20, "right")
 net:setProtocol("DPRK_SERVER")
 account.authInit()
-
+local logger = log.new("LOG/"..os.day()..".log")
+logger:info("Server startup is successfull!")
 print("Server initialization is complete!")
 
 -- main loop
 print("Server working!")
 while true do
 	local data, distance, sender = net:receive()
-	print("INBOUND:"..data)
+	logger:debug("INBOUND:"..data)
 	local command = util.split(data, '~')
 	-- Account service part
 	if command[1] == 'login' and table.getn(command) == 3 then
@@ -81,6 +84,6 @@ while true do
 	else
 		data = "Invalid command !"
 	end
-	print("OUTBOUND:"..data)
+	logger:debug("OUTBOUND:"..data)
 	net:reply(data)
 end
