@@ -2,11 +2,11 @@
 -- Version 1.1.6
 
 
--- tableFile( table tbl, str path, str file)
+-- tableFile( table tbl, str path)
 -- converts table to file
 -- return success / error
 function tableFile( tbl, path)
-	local file = fs.open(tbl,"w")
+	local file = fs.open(path,"w")
 	file.write(textutils.serialize(tbl))
 	file.close()
 end
@@ -15,7 +15,7 @@ end
 -- converts file to table
 -- return table
 function fileTable(path)
-	local file = fs.open(path,"r")
+	local file = fs.open(path,'r')
 	local data = file.readAll()
 	file.close()
 	return textutils.unserialize(data)
@@ -32,7 +32,7 @@ end
 -- returnFile(str path)
 -- return file content
 function returnFile(path)
-	local file = fs.open(path)
+	local file = fs.open(path, 'r')
 	local data =  file.readAll()
 	file.close()
 	return data

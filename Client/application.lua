@@ -27,9 +27,10 @@ function userLvl(authToken)
 	return message
 end
 
-function pauseKeyboard()
-io.write("Press <Enter> to continue...")
-io.read()
+function printPause(str)
+	print(str)
+	io.write("Press <Enter> to continue...")
+	io.read()
 end
 
 -- account service functions

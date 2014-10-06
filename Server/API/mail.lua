@@ -2,33 +2,9 @@
 -- Author: Black_Spirit
 -- Version: 0.1.5
 
--- loads the account API for account management 
+-- dependencies 
 os.loadAPI("API/account")
-
--- makeString(int length)
--- generates a random string
--- return random string
-function makeString(l)
-    if l < 1 then return nil end -- Check for l < 1
-    local s = "" -- Start string
-    for i = 1, l do
-		local number = math.random(33, 125)
-		while number == 96 do
-			number = math.random(33, 126)
-		end
-        s = s .. string.char(number) -- Generate random number from 32 to 126, turn it into character and add to string
-    end
-    return s -- Return string
-end
-
--- returnFile(str path)
--- return file content
-function returnFile(path)
-	local file = fs.open(path, 'r')
-	local data =  file.readAll()
-	file.close()
-	return data
-end
+os.loadAPI("API/util")
 
 -- sendMail( str to, str authToken, str topic, str body)
 -- sends a mail to 'to'
@@ -37,7 +13,7 @@ function sendMail(to, authToken, topic, body)
 	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		if account.isValidUser(to) then
-			local mailID = makeString(6)
+			local mailID = util.makeString(6)
 			local file = fs.open("mailFolder/"..to.."/"..mailID, 'w')
 			local logFile = fs.open("mailFolder/"..to.."/logFile.log", 'a')
 			file.write("From: ".. username..'\n')
@@ -62,7 +38,7 @@ function showInboxHistory(authToken)
 	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		if fs.exists("mailFolder/"..username.."/logFile.log") then
-			return returnFile("mailFolder/"..username.."/logFile.log")
+			return util.returnFile("mailFolder/"..username.."/logFile.log")
 		else
 			return "File does not exist!"
 		end
@@ -95,7 +71,7 @@ function readMail(authToken, mailName)
 	local username = account.authTokenUsername(authToken)
 	if username ~= nil then
 		if fs.exists("mailFolder/"..username..'/'..mailName) then
-			return returnFile("mailFolder/"..username..'/'..mailName)
+			return util.returnFile("mailFolder/"..username..'/'..mailName)
 		else
 			return "Invalid mailName!"
 		end

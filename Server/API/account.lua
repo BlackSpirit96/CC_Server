@@ -2,74 +2,14 @@
 -- Author: Black_Spirit
 -- Version 0.1.7
 
--- tableFile( table tbl, str path)
--- converts table to file
--- return success / error
-function tableFile( tbl, path)
-	local file = fs.open(path,"w")
-	file.write(textutils.serialize(tbl))
-	file.close()
-end
-
--- fileTable( str path)
--- converts file to table
--- return table
-function fileTable(path)
-	local file = fs.open(path,'r')
-	local data = file.readAll()
-	file.close()
-	return textutils.unserialize(data)
-end
-
--- writeData(str path, str data, str mode)
--- writes data to file with mode
-function writeData(path, data, mode)
-	local file = fs.open(path, mode)
-	file.write(data)
-	file.close(file)
-end
-
--- returnFile(str path)
--- return file content
-function returnFile(path)
-	local file = fs.open(path, 'r')
-	local data =  file.readAll()
-	file.close()
-	return data
-end
-
--- searchElementIntable(table tbl, str element)
--- search tbl to find element
--- return key where element is located or nil if not
-function searchElementIntable(tbl, element)
-	for key, value in pairs(tbl) do
-		if value == element then
-			return key
-		end
-	end
-end
-
--- makeString(int length)
--- generates a random string
--- return random string
-function makeString(l)
-    if l < 1 then return nil end -- Check for l < 1
-    local s = "" -- Start string
-    for i = 1, l do
-		local number = math.random(33, 125)
-		while number == 96 do
-			number = math.random(33, 126)
-		end
-        s = s .. string.char(number) -- Generate random number from 32 to 126, turn it into character and add to string
-    end
-    return s -- Return string
-end
+-- dependencies 
+os.loadAPI("API/util")
 
 -- authTokenGen()
 -- generates an authToken
 -- return authToken
 function authTokenGen()
-	return makeString(10)
+	return util.makeString(10)
 end
 
 -- authTokenInit()
@@ -77,21 +17,21 @@ end
 -- return success
 function authInit()
 	if fs.exists("accounts/accounts.table")then
-		local accounts = fileTable("accounts/accounts.table")
+		local accounts = util.fileTable("accounts/accounts.table")
 		local authTokens = {}
 		for key, value in pairs(accounts) do
 			authTokens[key] = authTokenGen()
 		end
-		tableFile(authTokens, "accounts/authTokens.table")
+		util.tableFile(authTokens, "accounts/authTokens.table")
 	else
 		print("First time run!")
 		print("Prepearing default account!")
 		local accounts = {}
 		local authTokens = {}
 		local userLevels = {}
-		tableFile(accounts,"accounts/accounts.table")
-		tableFile(authTokens,"accounts/authTokens.table")
-		tableFile(userLevels,"accounts/userLevels.table")
+		util.tableFile(accounts,"accounts/accounts.table")
+		util.tableFile(authTokens,"accounts/authTokens.table")
+		util.tableFile(userLevels,"accounts/userLevels.table")
 		createAccount("Admin", "DAHACKER", 100)
 	end
 end
@@ -100,8 +40,8 @@ end
 -- login procedure
 -- return str authtoken / error
 function login(username, password)
-	local accounts = fileTable("accounts/accounts.table")
-	local authTokens = fileTable("accounts/authTokens.table")
+	local accounts = util.fileTable("accounts/accounts.table")
+	local authTokens = util.fileTable("accounts/authTokens.table")
 	if accounts[username] ~= nil then
 		if accounts[username] == password then
 			return authTokens[username]
@@ -117,8 +57,8 @@ end
 -- converts authToken to username
 -- return str username / nil
 function authTokenUsername(authToken)
-	local authTokens = fileTable( "accounts/authTokens.table")
-	return searchElementIntable( authTokens, authToken)
+	local authTokens = util.fileTable( "accounts/authTokens.table")
+	return util.searchElementIntable( authTokens, authToken)
 end
 
 -- authTokenLvl(str authToken)
@@ -127,7 +67,7 @@ end
 -- return userLevel / error
 function authTokenLvl(authToken)
 	local username = authTokenUsername(authToken)
-	local userLevels = fileTable( "accounts/userLevels.table")
+	local userLevels = util.fileTable( "accounts/userLevels.table")
 	if username == nil then
 --		return "User does not exist!"
 		return 0
@@ -141,13 +81,13 @@ end
 -- return success / error
 function changePassword(authToken, oldPassword, newPassword)
 	local username = authTokenUsername(authToken)
-	local accounts = fileTable( "accounts/accounts.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
 	if username == nil then
 		return "Invalid user!"
 	else
 		if accounts[username] == oldPassword then
 			accounts[username] = newPassword
-			tableFile(accounts,"accounts/accounts.table")
+			util.tableFile(accounts,"accounts/accounts.table")
 			return "Success!"
 		else
 			return "oldPassword does not match"
@@ -160,13 +100,13 @@ end
 -- return success / error
 function updateProfile(authToken, password, data)
 	local username = authTokenUsername(authToken)
-	local accounts = fileTable( "accounts/accounts.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
 	if username == nil then
 		return "Invalid user!"
 	else
 		if accounts[username] == password then
 			-- delete file <"accounts/profiles/"..username>
-			writeData("accounts/profiles/"..username, data, 'w')
+			util.writeData("accounts/profiles/"..username, data, 'w')
 			return "Success!"
 		else
 			return "Invalid password!"
@@ -183,7 +123,7 @@ function showProfile(authToken, username)
 		return "You are not logged in!"
 	else
 		if fs.exists("accounts/profiles/"..username) then
-			return returnFile("accounts/profiles/"..username)
+			return util.returnFile("accounts/profiles/"..username)
 		else
 			return "Profile data does not exist!"
 		end
@@ -194,18 +134,18 @@ end
 -- add username account with userPassword as password and level userLevel
 -- return success
 function createAccount(username, password, userLevel)
-	local accounts = fileTable( "accounts/accounts.table")
-	local authTokens = fileTable( "accounts/authTokens.table")
-	local userLevels = fileTable( "accounts/userLevels.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
+	local authTokens = util.fileTable( "accounts/authTokens.table")
+	local userLevels = util.fileTable( "accounts/userLevels.table")
 	accounts[username] = password
 	authTokens[username] = authTokenGen()
 	userLevels[username] = userLevel
-	tableFile(accounts,"accounts/accounts.table")
-	tableFile(authTokens,"accounts/authTokens.table")
-	tableFile(userLevels,"accounts/userLevels.table")
+	util.tableFile(accounts,"accounts/accounts.table")
+	util.tableFile(authTokens,"accounts/authTokens.table")
+	util.tableFile(userLevels,"accounts/userLevels.table")
 	fs.makeDir("mailFolder/"..username)
-	--writeData("accounts/accounts.table", ????, 'a')
-	--writeData("accounts/authTokens.table", ????, 'a')
+	--util.writeData("accounts/accounts.table", ????, 'a')
+	--util.writeData("accounts/authTokens.table", ????, 'a')
 	return "Success!"
 end
 
@@ -214,9 +154,9 @@ end
 -- return success / error
 function addAccount(authToken, password, username, userPassword, userLevel)
 	local user = authTokenUsername(authToken)
-	local accounts = fileTable( "accounts/accounts.table")
-	local authTokens = fileTable( "accounts/authTokens.table")
-	local userLevels = fileTable( "accounts/userLevels.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
+	local authTokens = util.fileTable( "accounts/authTokens.table")
+	local userLevels = util.fileTable( "accounts/userLevels.table")
 	if user == nil then
 		return "You are not logged in!"
 	else
@@ -237,8 +177,8 @@ end
 -- return success / error
 function removeAccount(authToken, password, username)
 	local user = authTokenUsername(authToken)
-	local accounts = fileTable( "accounts/accounts.table")
-	local authTokens = fileTable( "accounts/authTokens.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
+	local authTokens = util.fileTable( "accounts/authTokens.table")
 	if user == nil then
 		return "You are not logged in!"
 	else
@@ -247,8 +187,8 @@ function removeAccount(authToken, password, username)
 				if isValidUser(username) then
 					accounts[username] = nil
 					authTokens[username] = nil
-					tableFile(accounts,"accounts/accounts.table")
-					tableFile(authTokens,"accounts/authTokens.table")
+					util.tableFile(accounts,"accounts/accounts.table")
+					util.tableFile(authTokens,"accounts/authTokens.table")
 					return "Success!"
 				else
 					return "This username does not exist!"
@@ -267,8 +207,8 @@ end
 -- return success / error
 function changeProfile(authToken, password, username, data)
 	local user = authTokenUsername(authToken)
-	local accounts = fileTable( "accounts/accounts.table")
-	local authTokens = fileTable( "accounts/authTokens.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
+	local authTokens = util.fileTable( "accounts/authTokens.table")
 	if user == nil then
 		return "You are not logged in!"
 	else
@@ -294,8 +234,8 @@ end
 -- return success / error
 function changeUserPassword(authToken, password, username, newPassword)
 	local user = authTokenUsername(authToken)
-	local accounts = fileTable( "accounts/accounts.table")
-	local authTokens = fileTable( "accounts/authTokens.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
+	local authTokens = util.fileTable( "accounts/authTokens.table")
 	if user == nil then
 		return "You are not logged in!"
 	else
@@ -320,7 +260,7 @@ end
 -- checks if username is valid
 -- return true / false
 function isValidUser(username)
-	local accounts = fileTable( "accounts/accounts.table")
+	local accounts = util.fileTable( "accounts/accounts.table")
 	if accounts[username] ~= nil then
 		return true
 	else
@@ -331,7 +271,7 @@ end
 -- usernameAuthToken(str username)
 -- return authToken / error
 function usernameAuthToken(username)
-	local authTokens = fileTable( "accounts/authTokens.table")
+	local authTokens = util.fileTable( "accounts/authTokens.table")
 	if isValidUser(username) then
 		return authTokens[username]
 	else

@@ -2,36 +2,20 @@
 -- Author: Black_Spirit
 -- Version 0.1.3
 
--- loads the account API for account management 
+-- dependencies 
+os.loadAPI("API/util")
 os.loadAPI("API/account")
-
--- returnFile(str path)
--- return file content
-function returnFile(path)
-	local file = fs.open(path, 'r')
-	local data =  file.readAll()
-	file.close()
-	return data
-end
-
--- writeData(str path, str data, str mode)
--- writes data to file with mode
-function writeData(path, data, mode)
-	local file = fs.open(path, mode)
-	file.write(data)
-	file.close(file)
-end
 
 -- readNews(str title)
 -- return the article of title
 function readNews(title)
 	--if tonumber(account.authTokenLvl(authToken)) >= 1 then
-	--	return returnFile("news/"..title)
+	--	return util.returnFile("news/"..title)
 	--else
 	--	return "You must login in order to see the news!"
 	--end
 	if fs.exists("news/"..title) then
-		return returnFile("news/"..title)
+		return util.returnFile("news/"..title)
 	else
 		return "Invalid Title!"
 	end
@@ -57,7 +41,7 @@ end
 -- return success / error
 function addArticle(authToken, title, text)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
-		writeData("news/"..title, text, 'w')
+		util.writeData("news/"..title, text, 'w')
 		return "Success!"
 	else
 		return "You are not authorized to do that!"
@@ -86,7 +70,7 @@ end
 function updateArticle(authToken, title, text)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
 		if fs.exists("news/"..title) then
-			writeData("news/"..title, '\n'..text..'\n', 'a')
+			util.writeData("news/"..title, '\n'..text..'\n', 'a')
 			return "Success!"
 		else
 			return "Article does not exists!"
