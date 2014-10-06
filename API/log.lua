@@ -6,22 +6,24 @@ local LEVELS = {"[DEBUG]", "[INFO]", "[WARN]", "[ERROR]", "[FATAL]")
 
 local logger = {
 	path = "log.file",
-	logFile = function(self, message)
+	logFile = function(self, level, message)
 		if type( self ) ~= "table" then
 			error( 'Incorrect notation, use ":" instead of "."', 2 )
-		end,
+		end
 		local logFile = fs.open(path, 'a')
+		local dateString = os.day().." - "..os.time()..' '
+		message = dateString..LEVELS[level].." "..message..'.\n'
 		logFile.write(message)
 		logFile.close()
 	end,
-	log = function (self, level, message)
+	log = function (self, level, rawMessage)
 		if type( self ) ~= "table" then
 			error( 'Incorrect notation, use ":" instead of "."', 2 )
 		end
 		local dateString = os.day().." - "..os.time()..' '
-		message = dateString..LEVELS[level].." "..message..'.\n'
+		local message = dateString..LEVELS[level].." "..rawMessage..'.\n'
 		print(message)
-		self.logFile(message)
+		self.logFile(level,rawMessage)
 	end,
 	["debug"] = function(message) log(1, message) end,
 	info = function(message) log(2, message) end,
