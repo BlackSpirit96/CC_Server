@@ -139,19 +139,21 @@ end
 -- add username account with userPassword as password and level userLevel
 -- return success
 function createAccount(username, password, userLevel)
-	local accounts = util.fileTable( "accounts/accounts.table")
-	local authTokens = util.fileTable( "accounts/authTokens.table")
-	local userLevels = util.fileTable( "accounts/userLevels.table")
-	accounts[username] = password
-	authTokens[username] = authTokenGen()
-	userLevels[username] = userLevel
-	util.tableFile(accounts,"accounts/accounts.table")
-	util.tableFile(authTokens,"accounts/authTokens.table")
-	util.tableFile(userLevels,"accounts/userLevels.table")
-	fs.makeDir("mailFolder/"..username)
-	--util.writeData("accounts/accounts.table", ????, 'a')
-	--util.writeData("accounts/authTokens.table", ????, 'a')
-	return "Success!"
+	if not(isValidUser(username)) then
+		local accounts = util.fileTable( "accounts/accounts.table")
+		local authTokens = util.fileTable( "accounts/authTokens.table")
+		local userLevels = util.fileTable( "accounts/userLevels.table")
+		accounts[username] = password
+		authTokens[username] = authTokenGen()
+		userLevels[username] = userLevel
+		util.tableFile(accounts,"accounts/accounts.table")
+		util.tableFile(authTokens,"accounts/authTokens.table")
+		util.tableFile(userLevels,"accounts/userLevels.table")
+		fs.makeDir("mailFolder/"..username)
+		return "Success!"
+	else
+		return "Username already exists!"
+	end
 end
 
 -- addAccount(str authToken, str password, str username, str userPassword, int userLevel)
