@@ -27,8 +27,10 @@ function userLvl(authToken)
 	return message
 end
 
-function printPause(str)
-	print(str)
+-- printPause(string message)
+-- prints message and then pauses the screen
+function printPause(message)
+	print(message)
 	io.write("Press <Enter> to continue...")
 	io.read()
 end
@@ -46,9 +48,9 @@ function login()
 	if message ~= "Invalid password!" and message ~= "This account does not exist!" then
 		authToken = message
 		username = user
-		print("Success!")
+		printPause("Success!")
 	else
-		print(message)
+		printPause(message)
 	end
 end
 
@@ -63,9 +65,9 @@ function changePassword()
 	if newPassword == newPassword2 then
 		net:send(account.changePassword(authToken, oldPassword, newPassword))
 		local message, distance, sender = net:receive()
-		print(message)
+		printPause(message)
 	else
-		print("You typed the new password wrong!")
+		printPause("You typed the new password wrong!")
 	end
 end
 
@@ -78,9 +80,9 @@ function updateProfile()
 	if data ~= nil then
 		net:send(account.updateProfile(authToken, password, data))
 		local message, distance, sender = net:receive()
-		print(message)
+		printPause(message)
 	else
-		print("You cannot provide blank info.")
+		printPause("You cannot provide blank info.")
 	end
 end
 
@@ -89,7 +91,7 @@ function showProfile()
 	local username = read()
 	net:send(account.showProfile(authToken, username))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function addAccount()
@@ -104,7 +106,7 @@ function addAccount()
 	local password = read("*")
 	net:send(account.addAccount(authToken, password, username, userPassword, userLVL))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function removeAccount()
@@ -115,7 +117,7 @@ function removeAccount()
 	local password = read("*")
 	net:send(account.removeAccount(authToken, password, username))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function changeProfile()
@@ -128,7 +130,7 @@ function changeProfile()
 	local password = read("*")
 	net:send(account.changeProfile(authToken, password, username, data))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function changeUserPassword()
@@ -141,7 +143,7 @@ function changeUserPassword()
 	local password = read("*")
 	net:send(account.changeUserPassword(authToken, password, username, newPassword))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 -- mail service functions
@@ -156,21 +158,21 @@ function sendMail()
 	local body = read()
 	net:send(mail.sendMail(to, authToken, topic, body))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function showInboxHistory()
 	print("Your inbox history.")
 	net:send(mail.showInboxHistory(authToken))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function showInbox()
 	print("Your inbox.")
 	net:send(mail.showInbox(authToken))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function readMail()
@@ -179,7 +181,7 @@ function readMail()
 	local mailName = read()
 	net:send(mail.readMail(authToken, mailName))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function deleteMail()
@@ -188,7 +190,7 @@ function deleteMail()
 	local mailName = read()
 	net:send(mail.deleteMail(authToken, mailName))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function showUserInbox()
@@ -197,7 +199,7 @@ function showUserInbox()
 	local username = read()
 	net:send(mail.showUserInbox(authToken, username))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function showUserInboxHistory()
@@ -206,7 +208,7 @@ function showUserInboxHistory()
 	local username = read()
 	net:send(mail.showUserInboxHistory(authToken, username))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function readUserMail()
@@ -218,7 +220,7 @@ function readUserMail()
 	local mailName = read()
 	net:send(mail.readUserMail(authToken, username, mailName))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function deleteUserMail()
@@ -230,7 +232,7 @@ function deleteUserMail()
 	local mailName = read()
 	net:send(mail.deleteUserMail(authToken, username, mailName))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 -- news service functions
@@ -239,7 +241,7 @@ function showNews()
 	print("Current news!")
 	net:send(news.showNews())
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function readNews()
@@ -248,7 +250,7 @@ function readNews()
 	local title = read()
 	net:send(news.readNews(title))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function addArticle()
@@ -259,7 +261,7 @@ function addArticle()
 	local text = read()
 	net:send(news.addArticle(authToken, title, text))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function removeArticle()
@@ -268,7 +270,7 @@ function removeArticle()
 	local title = read()
 	net:send(news.removeArticle(authToken, title))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 function updateArticle()
@@ -279,7 +281,7 @@ function updateArticle()
 	local text = read()
 	net:send(news.updateArticle(authToken, title, text))
 	local message, distance, sender = net:receive()
-	print(message)
+	printPause(message)
 end
 
 -- menu functions
@@ -295,14 +297,11 @@ function showAccountManagment()
 			local choice = read()
 			if choice == '1' then
 				login()
-				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Leaving Account Management!")
-				pauseKeyboard()
+				printPause("Leaving Account Management!")
 				break
 			else
-				print("Invalid choice!")
-				pauseKeyboard()
+				printPause("Invalid choice!")
 			end
 		else
 			print(" [1] Change Password")
@@ -320,32 +319,23 @@ function showAccountManagment()
 			local choice = read()
 			if choice == '1' then
 				changePassword()
-				pauseKeyboard()
 			elseif choice == '2' then
 				updateProfile()
-				pauseKeyboard()
 			elseif choice == '3' then
 				showProfile()
-				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Leaving Account Management!")
-				pauseKeyboard()
+				printPause("Leaving Account Management!")
 				break
 			elseif choice == '4' and tonumber(userLvl(authToken)) >= 25 then
 				addAccount()
-				pauseKeyboard()
 			elseif choice == '5' and tonumber(userLvl(authToken)) >= 25 then
 				removeAccount()
-				pauseKeyboard()
 			elseif choice == '6' and  tonumber(userLvl(authToken)) >= 25 then
 				changeProfile()
-				pauseKeyboard()
 			elseif choice == '7' and  tonumber(userLvl(authToken)) >= 25 then
 				changeUserPassword()
-				pauseKeyboard()
 			else
-				print("Invalid choice!")
-				pauseKeyboard()
+				printPause("Invalid choice!")
 			end
 		end
 	end
@@ -362,14 +352,11 @@ function showMailMenu()
 			local choice = read()
 			if choice == '1' then
 				login()
-				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Leaving Main Service!")
-				pauseKeyboard()
+				printPause("Leaving Main Service!")
 				break
 			else
-				print("Invalid choice!")
-				pauseKeyboard()
+				printPause("Invalid choice!")
 			end
 		else
 			print(" [1] Send Mail")
@@ -389,38 +376,27 @@ function showMailMenu()
 			local choice = read()
 			if choice == '1' then
 				sendMail()
-				pauseKeyboard()
 			elseif choice == '2'then
 				showInboxHistory()
-				pauseKeyboard()
 			elseif choice == '3' then
 				showInbox()
-				pauseKeyboard()
 			elseif choice == '4' then
 				readMail()
-				pauseKeyboard()
 			elseif choice == '5' then
 				deleteMail()
-				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Leaving Mail Service!")
-				pauseKeyboard()
+				printPause("Leaving Mail Service!")
 				break
 			elseif choice == '6' and tonumber(userLvl(authToken)) >= 25 then
 				showUserInbox()
-				pauseKeyboard()
 			elseif choice == '7' and tonumber(userLvl(authToken)) >= 25 then
 				showUserInboxHistory()
-				pauseKeyboard()
 			elseif choice == '8' and tonumber(userLvl(authToken)) >= 25 then
 				readUserMail()
-				pauseKeyboard()
 			elseif choice == '9' and tonumber(userLvl(authToken)) >= 25 then
 				deleteUserMail()
-				pauseKeyboard()
 			else
-				print("Invalid choice!")
-				pauseKeyboard()
+				printPause("Invalid choice!")
 			end
 		end
 	end
@@ -472,20 +448,15 @@ function showNewsMenu()
 			local choice = read()
 			if choice == '1' then
 				login()
-				pauseKeyboard()
 			elseif choice == '2' then
 				showNews()
-				pauseKeyboard()
 			elseif choice == '3' then
 				readNews()
-				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Leaving News Service!")
-				pauseKeyboard()
+				printPause("Leaving News Service!")
 				break
 			else
-				print("Invalid choice!")
-				pauseKeyboard()
+				printPause("Invalid choice!")
 			end
 		end
 	end
@@ -515,6 +486,6 @@ while true do
 		print("Good bye "..username.."!")
 		break
 	else
-		print("Invalid choice!")
+		printPause("Invalid choice!")
 	end
 end
