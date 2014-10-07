@@ -1,6 +1,6 @@
 -- Mail Service API
 -- Author: Black_Spirit
--- Version: 0.1.5
+-- Version: 1.1.1
 
 -- dependencies 
 os.loadAPI("API/account")
@@ -95,9 +95,9 @@ function deleteMail(authToken, mailName, adminAction)
 				fs.delete("mailFolder/"..username..'/'..mailName)
 				local logFile = fs.open("mailFolder/"..username.."/logFile.log", 'a')
 				if not adminAction then
-					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."\"")
+					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."\"\n")
 				else
-					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."\"".."Admin Action")
+					logFile.write("DELETED - ID: \""..mailName.."\" Time: \""..os.time().."\"".." - Admin Action\n")
 				end
 				logFile.close()
 			else

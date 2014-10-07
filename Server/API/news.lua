@@ -1,6 +1,6 @@
 -- News Service API
 -- Author: Black_Spirit
--- Version 0.1.3
+-- Version: 1.1.1
 
 -- dependencies 
 os.loadAPI("API/util")
@@ -46,9 +46,9 @@ end
 function addArticle(authToken, title, text)
 	if tonumber(account.authTokenLvl(authToken)) >= 10 then
 		local username = account.authTokenUsername(authToken)
-		local logFile = fs.open("news/"..List)
+		local logFile = fs.open("news/List",'a')
 		util.writeData("news/"..title, text, 'w')
-		logFile.write(title.." Day:"..os.day().." Time:"..os.time().." Author:"..username)
+		logFile.write(title.." Day:"..os.day().." Time:"..os.time().." Author:"..username..".\n")
 		logFile.close()
 		logger:logFile(2, username.." Added article with title:"..title)
 		return "Success!"

@@ -1,7 +1,7 @@
 -- Main client_side application
 -- Designed for current server
 -- Author: Black_Spirit
--- Version: 0.1
+-- Version: 1.1.1
 
 -- API Time!
 os.loadAPI("API/account")
@@ -418,26 +418,19 @@ function showNewsMenu()
 			local choice = read()
 			if choice == '1' then
 				showNews()
-				pauseKeyboard()
 			elseif choice == '2' then
 				readNews()
-				pauseKeyboard()
 			elseif choice == '3' then
 				addArticle()
-				pauseKeyboard()
 			elseif choice == '4' then
 				removeArticle()
-				pauseKeyboard()
 			elseif choice == '5' then
 				updateArticle()
-				pauseKeyboard()
 			elseif choice == 'Q' then
-				print("Leaving News Service!")
-				pauseKeyboard()
+				printPause("Leaving News Service!")
 				break
 			else
-				print("Invalid choice!")
-				pauseKeyboard()
+				printPause("Invalid choice!")
 			end
 		else
 			print(" [1] Login")

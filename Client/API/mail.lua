@@ -1,6 +1,6 @@
 -- Mail Service API
 -- Author: Black_Spirit
--- Version: 0.1
+-- Version: 1.1.1
 
 function sendMail(to, authToken, topic, body)
 	return 'sendMail~'..to..'~'..authToken..'~'..topic..'~'..body

@@ -1,9 +1,9 @@
 -- Server Main System
 -- Services: Mail, News, Profile
 -- Author: Black_Spirit
--- Version: 0.1.8
+-- Version: 1.1.1
 
-print("DPRK_SERVER 0.1")
+print("DPRK_SERVER 1.1.1")
 print("Initializing the server!")
 
 -- API time !
@@ -31,7 +31,7 @@ print("Server working!")
 while true do
 	local data, distance, sender = net:receive()
 	logger:debug("INBOUND:"..data)
-	local command = util.split(data, '~')
+	local command = util.split(data, "~")
 	-- Account service part
 	if command[1] == 'login' and table.getn(command) == 3 then
 		print("A user have logged in!")

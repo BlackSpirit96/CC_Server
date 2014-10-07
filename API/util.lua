@@ -1,5 +1,5 @@
 -- Basic utilities that I use over my programs
--- Version 1.1.6
+-- Version 1.1.7
 
 
 -- tableFile( table tbl, str path)

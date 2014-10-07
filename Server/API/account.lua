@@ -1,6 +1,6 @@
 -- Account and Profile Service API
 -- Author: Black_Spirit
--- Version 0.1.7
+-- Version: 1.1.1
 
 -- dependencies 
 os.loadAPI("API/util")
