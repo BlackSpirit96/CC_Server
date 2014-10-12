@@ -21,4 +21,7 @@ Note: The default account username:password is Admin:DAHACKER
 2. And then "install"
 3. Restart :D
  
-## You can freely give me ideas just contact me :D
+## I need ideas to improve it.
+1. Issue a ticket with an idea
+2. I will thanks you
+3. :D
