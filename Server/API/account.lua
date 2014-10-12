@@ -149,7 +149,11 @@ function createAccount(username, password, userLevel)
 		util.tableFile(accounts,"accounts/accounts.table")
 		util.tableFile(authTokens,"accounts/authTokens.table")
 		util.tableFile(userLevels,"accounts/userLevels.table")
-		fs.makeDir("mailFolder/"..username)
+		if fs.exists("API/mail") then
+			fs.makeDir("mailFolder/"..username)
+		end
+		util.writeData("accounts/profiles/"..username, 'Username:'..username..' Userlevel:'..userLevel, 'w')
+		-- Do not need to log anything here!
 		return "Success!"
 	else
 		return "Username already exists!"
@@ -187,6 +191,7 @@ function removeAccount(authToken, password, username)
 	local user = authTokenUsername(authToken)
 	local accounts = util.fileTable( "accounts/accounts.table")
 	local authTokens = util.fileTable( "accounts/authTokens.table")
+	local userLevels = util.fileTable( "accounts/userLevels.table")
 	if user == nil then
 		return "You are not logged in!"
 	else
@@ -195,8 +200,13 @@ function removeAccount(authToken, password, username)
 				if isValidUser(username) then
 					accounts[username] = nil
 					authTokens[username] = nil
+					userLevels[username] = nil
 					util.tableFile(accounts,"accounts/accounts.table")
 					util.tableFile(authTokens,"accounts/authTokens.table")
+					util.tableFile(userLevels, "accounts/userLevels.table")
+					if fs.exists("API/mail") then
+						fs.delete("mailFolder/"..username)
+					end
 					logger:logFile(2, user.." Removed an existing account with username:"..username)
 					return "Success!"
 				else

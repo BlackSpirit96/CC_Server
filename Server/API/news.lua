@@ -48,7 +48,7 @@ function addArticle(authToken, title, text)
 		local username = account.authTokenUsername(authToken)
 		local logFile = fs.open("news/List",'a')
 		util.writeData("news/"..title, text, 'w')
-		logFile.write(title.." Day:"..os.day().." Time:"..os.time().." Author:"..username..".\n")
+		logFile.write("Title:"..title.." Day:"..os.day().." Time:"..os.time().." Author:"..username..".\n")
 		logFile.close()
 		logger:logFile(2, username.." Added article with title:"..title)
 		return "Success!"
