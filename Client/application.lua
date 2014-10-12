@@ -15,7 +15,7 @@ print("Opening application!")
 
 local authToken = "guestUserX"
 local username = "Guest"
-
+local userLVL = 0
 -- userLvl(str authToken)
 -- return the users current lvl
 -- return userLvl
@@ -44,6 +44,7 @@ function login()
 	if message ~= "Invalid password!" and message ~= "This account does not exist!" then
 		authToken = message
 		username = user
+		userLVL = tonumber(userLvl(authToken))
 		printPause("Success!")
 	else
 		printPause(message)
@@ -283,7 +284,7 @@ function showAccountManagment()
 			print(" [2] Update Profile")
 			print(" [3] Show Profile")
 			print(" [Q] Exit")
-			if tonumber(userLvl(authToken)) >= 25 then
+			if userLVL >= 25 then
 				print("Admin Options!")
 				print(" [4] Add Account")
 				print(" [5] Remove Account")
@@ -301,13 +302,13 @@ function showAccountManagment()
 			elseif choice == 'Q' then
 				printPause("Leaving Account Management!")
 				break
-			elseif choice == '4' and tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '4' and userLVL >= 25 then
 				addAccount()
-			elseif choice == '5' and tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '5' and userLVL >= 25 then
 				removeAccount()
-			elseif choice == '6' and  tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '6' and  userLVL >= 25 then
 				changeProfile()
-			elseif choice == '7' and  tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '7' and  userLVL >= 25 then
 				changeUserPassword()
 			else
 				printPause("Invalid choice!")
@@ -340,7 +341,7 @@ function showMailMenu()
 			print(" [4] Read Mail")
 			print(" [5] Delete Mail")
 			print(" [Q] Exit")
-			if tonumber(userLvl(authToken)) >= 25 then
+			if userLVL >= 25 then
 				print("Admin Options!")
 				print(" [6] Show User Inbox")
 				print(" [7] Show User Inbox History")
@@ -362,13 +363,13 @@ function showMailMenu()
 			elseif choice == 'Q' then
 				printPause("Leaving Mail Service!")
 				break
-			elseif choice == '6' and tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '6' and userLVL >= 25 then
 				showUserInbox()
-			elseif choice == '7' and tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '7' and userLVL >= 25 then
 				showUserInboxHistory()
-			elseif choice == '8' and tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '8' and userLVL >= 25 then
 				readUserMail()
-			elseif choice == '9' and tonumber(userLvl(authToken)) >= 25 then
+			elseif choice == '9' and userLVL >= 25 then
 				deleteUserMail()
 			else
 				printPause("Invalid choice!")
@@ -381,7 +382,7 @@ function showNewsMenu()
 	while true do
 		print("Current user:"..username)
 		print("Available options:")
-		if tonumber(userLvl(authToken)) >= 10 then
+		if userLVL >= 10 then
 			print(" [1] Show News")
 			print(" [2] Read News")
 			print(" [Q] Exit")
