@@ -4,26 +4,23 @@
 -- Version: 1.1.1
 
 -- API Time!
-os.loadAPI("API/account")
-os.loadAPI("API/iNet")
-os.loadAPI("API/mail")
-os.loadAPI("API/news")
+os.loadAPI("API/client_api")
 os.loadAPI("API/util")
+local account = client_api.account
+local news = client_api.news
+local mail = client_api.mail
 
 -- Initialization
 print("Opening application!")
 
 local authToken = "guestUserX"
-local net = iNet.open(20, 15, "right")
-net:setProtocol("DPRK_SERVER")
 local username = "Guest"
 
 -- userLvl(str authToken)
 -- return the users current lvl
 -- return userLvl
 function userLvl(authToken)
-	net:send(account.authTokenLvl(authToken))
-	local message, distance, sender = net:receive()
+	local message = account.authTokenLvl(authToken)
 	return message
 end
 
@@ -43,8 +40,7 @@ function login()
 	local user = read()
 	term.write("Enter password:")
 	local password = read("*")
-	net:send(account.login(user, password))
-	local message, distance, sender = net:receive()
+	local message = account.login(user, password)
 	if message ~= "Invalid password!" and message ~= "This account does not exist!" then
 		authToken = message
 		username = user
@@ -63,8 +59,7 @@ function changePassword()
 	term.write("Enter new password again:")
 	local newPassword2 = read("*")
 	if newPassword == newPassword2 then
-		net:send(account.changePassword(authToken, oldPassword, newPassword))
-		local message, distance, sender = net:receive()
+		local message = account.changePassword(authToken, oldPassword, newPassword)
 		printPause(message)
 	else
 		printPause("You typed the new password wrong!")
@@ -78,8 +73,7 @@ function updateProfile()
 	print("Enter your new profile data:")
 	local data = read()
 	if data ~= nil then
-		net:send(account.updateProfile(authToken, password, data))
-		local message, distance, sender = net:receive()
+		local message = account.updateProfile(authToken, password, data)
 		printPause(message)
 	else
 		printPause("You cannot provide blank info.")
@@ -89,8 +83,7 @@ end
 function showProfile()
 	term.write("Enter the username you want to show its profile data:")
 	local username = read()
-	net:send(account.showProfile(authToken, username))
-	local message, distance, sender = net:receive()
+	local message = account.showProfile(authToken, username)
 	printPause(message)
 end
 
@@ -104,8 +97,7 @@ function addAccount()
 	local userLVL = read()
 	term.write("Enter your password to authorize the action:")
 	local password = read("*")
-	net:send(account.addAccount(authToken, password, username, userPassword, userLVL))
-	local message, distance, sender = net:receive()
+	local message = account.addAccount(authToken, password, username, userPassword, userLVL)
 	printPause(message)
 end
 
@@ -115,8 +107,7 @@ function removeAccount()
 	local username = read()
 	term.write("Enter your password to authorize the action:")
 	local password = read("*")
-	net:send(account.removeAccount(authToken, password, username))
-	local message, distance, sender = net:receive()
+	local message = account.removeAccount(authToken, password, username)
 	printPause(message)
 end
 
@@ -128,8 +119,7 @@ function changeProfile()
 	local data = read()
 	term.write("Enter your password to authorize the action:")
 	local password = read("*")
-	net:send(account.changeProfile(authToken, password, username, data))
-	local message, distance, sender = net:receive()
+	local message = account.changeProfile(authToken, password, username, data)
 	printPause(message)
 end
 
@@ -141,8 +131,7 @@ function changeUserPassword()
 	local newPassword = read("*")
 	term.write("Enter your password to authorize the action:")
 	local password = read("*")
-	net:send(account.changeUserPassword(authToken, password, username, newPassword))
-	local message, distance, sender = net:receive()
+	local message = account.changeUserPassword(authToken, password, username, newPassword)
 	printPause(message)
 end
 
@@ -156,22 +145,19 @@ function sendMail()
 	local topic = read()
 	print("Enter mail body:")
 	local body = read()
-	net:send(mail.sendMail(to, authToken, topic, body))
-	local message, distance, sender = net:receive()
+	local message = mail.sendMail(to, authToken, topic, body)
 	printPause(message)
 end
 
 function showInboxHistory()
 	print("Your inbox history.")
-	net:send(mail.showInboxHistory(authToken))
-	local message, distance, sender = net:receive()
+	local message = mail.showInboxHistory(authToken)
 	printPause(message)
 end
 
 function showInbox()
 	print("Your inbox.")
-	net:send(mail.showInbox(authToken))
-	local message, distance, sender = net:receive()
+	local message = mail.showInbox(authToken)
 	printPause(message)
 end
 
@@ -179,8 +165,7 @@ function readMail()
 	showInbox()
 	term.write("Enter the mailName you want to read:")
 	local mailName = read()
-	net:send(mail.readMail(authToken, mailName))
-	local message, distance, sender = net:receive()
+	local message = mail.readMail(authToken, mailName)
 	printPause(message)
 end
 
@@ -188,8 +173,7 @@ function deleteMail()
 	showInbox()
 	term.write("Enter the mailName you want to delete:")
 	local mailName = read()
-	net:send(mail.deleteMail(authToken, mailName))
-	local message, distance, sender = net:receive()
+	local message = mail.deleteMail(authToken, mailName)
 	printPause(message)
 end
 
@@ -197,8 +181,7 @@ function showUserInbox()
 	print("Show usename inbox proccess.")
 	term.write("Enter username:")
 	local username = read()
-	net:send(mail.showUserInbox(authToken, username))
-	local message, distance, sender = net:receive()
+	local message = mail.showUserInbox(authToken, username)
 	printPause(message)
 end
 
@@ -206,8 +189,7 @@ function showUserInboxHistory()
 	print("Show usename inbox history proccess.")
 	term.write("Enter username:")
 	local username = read()
-	net:send(mail.showUserInboxHistory(authToken, username))
-	local message, distance, sender = net:receive()
+	local message = mail.showUserInboxHistory(authToken, username)
 	printPause(message)
 end
 
@@ -218,8 +200,7 @@ function readUserMail()
 	local username = read()
 	term.write("Enter mailName:")
 	local mailName = read()
-	net:send(mail.readUserMail(authToken, username, mailName))
-	local message, distance, sender = net:receive()
+	local message = mail.readUserMail(authToken, username, mailName)
 	printPause(message)
 end
 
@@ -230,8 +211,7 @@ function deleteUserMail()
 	local username = read()
 	term.write("Enter mailName:")
 	local mailName = read()
-	net:send(mail.deleteUserMail(authToken, username, mailName))
-	local message, distance, sender = net:receive()
+	local message = mail.deleteUserMail(authToken, username, mailName)
 	printPause(message)
 end
 
@@ -239,8 +219,7 @@ end
 
 function showNews()
 	print("Current news!")
-	net:send(news.showNews())
-	local message, distance, sender = net:receive()
+	local message = news.showNews()
 	printPause(message)
 end
 
@@ -248,8 +227,7 @@ function readNews()
 	showNews()
 	term.write("Enter title to read:")
 	local title = read()
-	net:send(news.readNews(title))
-	local message, distance, sender = net:receive()
+	local message = news.readNews(title)
 	printPause(message)
 end
 
@@ -259,8 +237,7 @@ function addArticle()
 	local title = read()
 	print("Enter article text:")
 	local text = read()
-	net:send(news.addArticle(authToken, title, text))
-	local message, distance, sender = net:receive()
+	local message = news.addArticle(authToken, title, text)
 	printPause(message)
 end
 
@@ -268,8 +245,7 @@ function removeArticle()
 	print("Remove article proccess!")
 	term.write("Enter article title:")
 	local title = read()
-	net:send(news.removeArticle(authToken, title))
-	local message, distance, sender = net:receive()
+	local message = news.removeArticle(authToken, title)
 	printPause(message)
 end
 
@@ -279,8 +255,7 @@ function updateArticle()
 	local title = read()
 	term.write("Enter text you want to add to the article:")
 	local text = read()
-	net:send(news.updateArticle(authToken, title, text))
-	local message, distance, sender = net:receive()
+	local message = news.updateArticle(authToken, title, text)
 	printPause(message)
 end
 
