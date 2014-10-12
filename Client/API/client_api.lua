@@ -9,7 +9,7 @@ net:setProtocol("DPRK_SERVER")
 
 -- Account API
 
-local account = {
+account = {
 	login = function(username, password)
 		net:send('login~'..username..'~'..password)
 		local message, distance, sender = net:receive()
@@ -58,7 +58,7 @@ local account = {
 
 -- Mail API
 
-local mail = {
+mail = {
 	sendMail = function(to, authToken, topic, body)
 		net:send('sendMail~'..to..'~'..authToken..'~'..topic..'~'..body)
 		local message, distance, sender = net:receive()
@@ -107,7 +107,7 @@ local mail = {
 
 -- News API
 
-local news = {
+news = {
 	readNews = function(title)
 		net:send('readNews~'..title)
 		local message, distance, sender = net:receive()
