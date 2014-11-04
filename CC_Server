@@ -1,33 +1,9 @@
-<NotepadPlus>
-    <Project name="CC_Server">
-        <Folder name="Client">
-            <Folder name="API">
-                <File name="Client\API\account.lua" />
-                <File name="Client\API\mail.lua" />
-                <File name="Client\API\news.lua" />
-                <File name="API\iNet.lua" />
-                <File name="API\util.lua" />
-            </Folder>
-            <File name="Client\application.lua" />
-        </Folder>
-        <Folder name="Server">
-            <Folder name="API">
-                <File name="Server\API\account.lua" />
-                <File name="Server\API\mail.lua" />
-                <File name="Server\API\news.lua" />
-                <File name="API\iNet.lua" />
-                <File name="API\util.lua" />
-                <File name="API\log.lua" />
-            </Folder>
-            <File name="Server\install.lua" />
-            <File name="Server\server_system.lua" />
-        </Folder>
-        <File name=".gitattributes" />
-        <File name="README.md" />
-        <Folder name="API">
-            <File name="API\iNet.lua" />
-            <File name="API\log.lua" />
-            <File name="API\util.lua" />
-        </Folder>
-    </Project>
-</NotepadPlus>
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		}
+	]
+}
